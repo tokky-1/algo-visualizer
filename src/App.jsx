@@ -1,23 +1,31 @@
 import { bubbleSort } from "./algorithms/bubblesort.js";
-import { Bars } from "./components/Bars.jsx";
-import { useVisualizer } from "./hooks/useVisualizer.js";
+import { binarySearch } from "./algorithms/binarySearch.js";
+import { useState } from "react";
+import { Visualizer } from "./components/Visualizer.jsx";
 
 import './App.css'
 
 const INITIAL = [5, 2, 9, 1, 7, 3, 8, 4];
-
+const SORTED = [1, 3, 4, 7, 9, 12, 15, 18];
+const ALGORITHMS = {
+  bubble: { label: "Bubble sort", run: bubbleSort, data: INITIAL },
+  binary: { label: "Binary search (target 12)", run: (arr) => binarySearch(arr, 12), data: SORTED },
+};
 function App() {
-  const { step, play, pause, stepOnce, reset, delay, setDelay } =
-    useVisualizer(bubbleSort, INITIAL);
+  const [which, setWhich] = useState("bubble");
 
   return (
     <>
-    <Bars {...step} />
-    <button onClick={play}> Play </button>
-    <button  onClick={pause}> Pause </button>
-    <button  onClick={stepOnce}> Step </button>
-    <button  onClick={reset}> Reset </button>
-    <input type="range" min="50" max="1000" value={delay} onChange={(e) => setDelay(Number(e.target.value))} />
+      <select value={which} onChange={(e) => setWhich(e.target.value)}>
+        {Object.entries(ALGORITHMS).map(([key, { label }]) => (
+          <option key={key} value={key}>{label}</option>
+        ))}
+      </select>
+      <Visualizer
+        key={which}
+        algorithm={ALGORITHMS[which].run}
+        data={ALGORITHMS[which].data}
+      />
     </>
   );
 }
