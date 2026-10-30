@@ -1,5 +1,6 @@
 import { bubbleSort } from "./algorithms/bubblesort.js";
 import { binarySearch } from "./algorithms/binarySearch.js";
+import { mergeSort } from "./algorithms/mergeSort.js";
 import { useState } from "react";
 import { Visualizer } from "./components/Visualizer.jsx";
 
@@ -10,6 +11,7 @@ const SORTED = [1, 3, 4, 7, 9, 12, 15, 18];
 const ALGORITHMS = {
   bubble: { label: "Bubble sort", run: bubbleSort, data: INITIAL },
   binary: { label: "Binary search (target 12)", run: (arr) => binarySearch(arr, 12), data: SORTED },
+  merge: { label: "Merge sort", run: mergeSort, data: INITIAL },
 };
 function App() {
   const [which, setWhich] = useState("bubble");
